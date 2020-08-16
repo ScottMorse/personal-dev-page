@@ -22,12 +22,13 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   html {
-    font-family: Asset-Mono;
+    font-family: Asset-Mono, 'Courier New', Courier, monospace;
     background-color: ${({ theme }) => theme.backgroundColor};
     color: ${({ theme }) => theme.fontColor};
   }
 
   body {
     margin: 1em 1.5em;
+    line-height: 1.25;
   }
 `

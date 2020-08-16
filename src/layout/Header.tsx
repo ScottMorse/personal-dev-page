@@ -33,8 +33,8 @@ const ASCII_TITLES: Array<string> = [
 const prepareTitle = (s: string) => ({ __html: s.replace(/ /g, '&nbsp;') })
 
 const StyledHeader = styled.header`
-  h2, h3 {
-    margin: 0.25em;
+  h1 {
+    line-height: 1;
   }
   h2 {
     margin-top: 1em;
