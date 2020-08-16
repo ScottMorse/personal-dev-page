@@ -28,6 +28,6 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    margin: 0;
+    margin: 1em 1.5em;
   }
 `
