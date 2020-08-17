@@ -1,9 +1,11 @@
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import styled, { keyframes } from 'styled-components'
 
+import { CliCommandEnum } from '../cliDomain'
 import { cliSagaActions } from '../cliSagaActions'
+import { useSelector } from '../../useSelector'
 import { useWinListener } from '../../../hooks'
 import { PROMPT } from './prompt'
 
@@ -40,9 +42,16 @@ export const CliInput = () => {
 
   const [userText, setUserText] = useState("")
   const [ctlHeld, setCtlHeld] = useState(false)
-  const [commandHistoryPos, setCommandHistoryPos] = useState(0)
+  const [autofills, setAutofills] = useState<Array<CliCommandEnum>>([])
+  const [commandHistoryPos, setCommandHistoryPos] = useState(-1)
+
+  const { cliCommandHistory } = useSelector(({ cli }) => cli)
 
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    setAutofills(CliCommandEnum.getAutofills(userText))
+  }, [userText, setAutofills])
 
   const handleEnter = () => {
     dispatch(cliSagaActions.takeCommand({ command: userText }))
@@ -51,9 +60,27 @@ export const CliInput = () => {
 
   const handleBackspace = () => setUserText(userText.slice(0,userText.length - 1))
 
-  const handleArrowUp = () => {}
+  const _handleCommHistPosChange = (pos: number) => {
+    if(pos >= cliCommandHistory.length || pos < 0) return
+    setCommandHistoryPos(pos)
+    setUserText(cliCommandHistory[pos])
+  }
 
-  const handleCtlC = () => setUserText("")
+  const handleArrowUp = () => {
+    _handleCommHistPosChange(commandHistoryPos + 1)
+  }
+
+  const handleArrowDown = () => {
+    _handleCommHistPosChange(commandHistoryPos - 1)
+  }
+
+  const handleTab = () => {
+    if(autofills.length === 1) setUserText(autofills[0].command)
+  }
+
+  const handleCtlC = () => {
+    setUserText("")
+  }
 
   const handleNewChar = (s: string) => {
     setUserText(
@@ -64,7 +91,9 @@ export const CliInput = () => {
     )
   }
 
-  useWinListener("keydown", ({ key }: KeyboardEvent) => {
+  useWinListener("keydown", (e: KeyboardEvent) => {
+    e.preventDefault()
+    const { key } = e
     switch(key){
       case "Enter":
         handleEnter()
@@ -78,6 +107,12 @@ export const CliInput = () => {
       case "ArrowUp":
         handleArrowUp()
         break
+      case "ArrowDown":
+        handleArrowDown()
+        break
+      case "Tab":
+        handleTab()
+        break
       case "c":
       case "d":
         if(ctlHeld){
@@ -89,6 +124,9 @@ export const CliInput = () => {
         if(key.match(/^[\w ]$/)){
           handleNewChar(key)
         }
+    }
+    if(key !== 'ArrowUp' && key !== 'ArrowDown'){
+      setCommandHistoryPos(-1)
     }
   })
 

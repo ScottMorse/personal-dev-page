@@ -1,6 +1,20 @@
 
 import React from 'react'
 
-export const CliHistory = () => (
-  <div>History</div>
-)
+import { CliLogLine } from '../cliDomain'
+import { useSelector } from '../../useSelector'
+
+export const CliHistory = () => {
+
+  const { cliLogHistory } = useSelector(({ cli }) => cli)
+
+  return (
+    <>
+      {cliLogHistory.reduce((lines, logGroup) => lines.concat(logGroup.lines), [] as Array<CliLogLine>).map((line, i) => (
+        <div key={`cli-log-${i}`}>
+          {line.content}
+        </div>
+      ))}
+    </>
+  )
+}
