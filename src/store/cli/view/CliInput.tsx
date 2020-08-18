@@ -92,7 +92,6 @@ export const CliInput = () => {
   }
 
   useWinListener("keydown", (e: KeyboardEvent) => {
-    e.preventDefault()
     const { key } = e
     switch(key){
       case "Enter":
@@ -111,6 +110,7 @@ export const CliInput = () => {
         handleArrowDown()
         break
       case "Tab":
+        e.preventDefault()
         handleTab()
         break
       case "c":

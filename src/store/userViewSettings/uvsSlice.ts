@@ -10,7 +10,7 @@ export interface UvsState {
 
 export const uvsInitialState: UvsState = {
   theme: ThemeEnum.DEFAULT,
-  fontSizePx: 12
+  fontSizePx: 16
 }
 
 export const uvsSlice = createSlice({

@@ -10,10 +10,12 @@ export const CliHistory = () => {
 
   return (
     <>
-      {cliLogHistory.reduce((lines, logGroup) => lines.concat(logGroup.lines), [] as Array<CliLogLine>).map((line, i) => (
-        <div key={`cli-log-${i}`}>
-          {line.content}
+      {cliLogHistory.reduce((lines, logGroup) => lines.concat(logGroup.lines), [] as Array<CliLogLine>).map(({ isError, isLink, content }, i) => isLink ? (
+        <div key={`cli-log-${i}`} style={isError ? { color: "red" } : {}}>
+          <a href={content} target="_blank" rel="noopener noreferrer">{content}</a>
         </div>
+      ) : (
+        <div key={`cli-log-${i}`} style={isError ? { color: "red" } : {}} dangerouslySetInnerHTML={{ __html: content }}/>
       ))}
     </>
   )

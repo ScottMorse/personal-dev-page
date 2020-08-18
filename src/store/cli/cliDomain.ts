@@ -29,6 +29,7 @@ export class CliCommandEnum extends Enum implements CliCommand {
 
   public static readonly NOTHING = new CliCommandEnum("", 0)
   public static readonly CLEAR = new CliCommandEnum("clear", 0)
+  public static readonly BIO = new CliCommandEnum("bio", 0)
   public static readonly UNKNOWN = new CliCommandEnum("__UNKNOWN__", 0, false)
 
   public static get(comm: string): CliCommand {
@@ -58,3 +59,17 @@ export class CliCommandEnum extends Enum implements CliCommand {
     return super.toObj() as { [key: string]: CliCommand }
   }
 }
+
+export const BIO = `
+This is my bio.
+This is my bio.
+This is my bio.
+This is my bio.
+
+This is my bio.
+https://github.com
+
+This is my bio.
+This is my bio.
+This is my bio.
+`

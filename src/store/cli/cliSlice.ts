@@ -10,21 +10,26 @@ export interface CliState {
   cliCommandHistory: Array<string>;
   cliLogHistory: Array<CliLogGroup>;
   activeLog: CliLogGroup;
+  inputIsBlocked: boolean;
 }
 
 export const initialCliState: CliState = {
   isLoading: false,
   cliCommandHistory: [],
   cliLogHistory: [],
-  activeLog: { lines: [] }
+  activeLog: { lines: [] },
+  inputIsBlocked: false,
 }
 
 export const cliSlice = createSlice({
   name: "cli",
   initialState: initialCliState,
   reducers: {
-    toggleLoading: (state) => {
-      state.isLoading = !state.isLoading
+    setIsLoading: (state, { payload }: PayloadAction<boolean>) => {
+      state.isLoading = payload
+    },
+    blockInput: (state) => {
+      state.inputIsBlocked = true
     },
     addCommandToHistory: (state, { payload: { command } }: PayloadAction<SubmitCommandPayload>) => {
       if(!command) return

@@ -4,6 +4,7 @@ import { createGlobalStyle } from 'styled-components'
 import { IosevkaMedium, IosevkaBold } from '../assets/fonts'
 
 import { cssReset } from './reset'
+import { clear } from 'console'
 
 export const GlobalStyle = createGlobalStyle`
 
@@ -30,5 +31,9 @@ export const GlobalStyle = createGlobalStyle`
   body {
     margin: 1em 1.5em;
     line-height: 1.25;
+  }
+
+  a {
+    color: ${({ theme }) => theme.fontColor};
   }
 `

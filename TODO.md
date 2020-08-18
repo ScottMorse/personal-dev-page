@@ -5,7 +5,7 @@
 * Initializing intro animation
 * Loading states for CLI
     * Block input
-    * Text animatinos
+    * Text animations
 * Command info items
     * Bio
     * About app
